@@ -1,27 +1,26 @@
 <?php
 session_start();
 
-// Check if the user is logged in
+
 if (!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit();
 }
 
-// If the user submitted the debt form
+
 if ($_SERVER["REQUEST_METHOD"] == "POST") {
     $debtorName = $_POST["debtor_name"];
     $amount = $_POST["amount"];
     $date = $_POST["date"];
 
-    // Create a connection to the database
+   
     $mysqli = new mysqli("localhost", "root", "", "money");
 
-    // Check connection
+
     if ($mysqli->connect_error) {
         die("Connection failed: " . $mysqli->connect_error);
     }
 
-    // Prepare and execute the query
     $stmt = $mysqli->prepare("INSERT INTO debt_info (username, debtor_name, amount, date) VALUES (?, ?, ?, ?)");
     $stmt->bind_param("ssds", $_SESSION["username"], $debtorName, $amount, $date);
 
@@ -31,7 +30,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         echo "Error: " . $stmt->error;
     }
 
-    // Close the statement and connection
+ 
     $stmt->close();
     $mysqli->close();
 }
@@ -57,7 +56,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </thead>
             <tbody>
                 <?php
-                // Fetch user's debt details from debt_info table
+     
                 $mysqli = new mysqli("localhost", "root", "", "money");
 
                 if ($mysqli->connect_error) {
@@ -78,7 +77,7 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDebtModal">Add Debt</button>
     </div>
 
-    <!-- Modal for adding debt -->
+
     <div class="modal fade" id="addDebtModal" tabindex="-1" aria-labelledby="addDebtModalLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">

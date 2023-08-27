@@ -17,11 +17,11 @@
             font-family: 'Montserrat', sans-serif;
         }
         body {
-            background-image: url('images/background.jpg'); /* Replace 'background.jpg' with your image URL */
+            background-image: url('images/background.jpg'); 
             background-size: cover;
             background-repeat: no-repeat;
             background-attachment: fixed;
-            background-color: rgba(0, 0, 0, 0.55);  /* Set the desired opacity value */
+            background-color: rgba(0, 0, 0, 0.55);  
         }
 
     </style>

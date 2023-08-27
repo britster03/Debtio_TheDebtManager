@@ -15,18 +15,18 @@ if ($conn->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST["username"];
-    $password = $_POST["password"]; // You should hash the password for security reasons
+    $password = $_POST["password"]; 
 
     $sql = "SELECT * FROM users WHERE username = '$username' AND password = '$password'";
     $result = $conn->query($sql);
 
     if ($result->num_rows === 1) {
-        // Login successful, set session variables or redirect to chat page
+       
         $_SESSION['username'] = $username;
-        header("Location: dashboard.php"); // Redirect to the chat page
+        header("Location: dashboard.php"); 
         exit();
     } else {
-        // Login failed, show an error message
+   
         echo "Invalid login credentials.";
     }
 

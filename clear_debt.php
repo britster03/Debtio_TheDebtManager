@@ -1,35 +1,35 @@
 <?php
 session_start();
 
-// Check if the user is logged in
+
 if (!isset($_SESSION["username"])) {
     header("Location: login.php");
     exit();
 }
 
-// If a debt is being cleared
+
 if (isset($_POST["clear_debt_id"])) {
     $debtId = $_POST["clear_debt_id"];
 
-    // Create a connection to the database
+
     $mysqli = new mysqli("localhost", "root", "", "money");
 
-    // Check connection
+ 
     if ($mysqli->connect_error) {
         die("Connection failed: " . $mysqli->connect_error);
     }
 
-    // Prepare and execute the query to delete the debt
+
     $stmt = $mysqli->prepare("DELETE FROM debt_info WHERE debt_id = ?");
     $stmt->bind_param("i", $debtId);
 
     if ($stmt->execute()) {
-        // Successfully deleted
+
     } else {
         echo "Error: " . $stmt->error;
     }
 
-    // Close the statement and connection
+
     $stmt->close();
     $mysqli->close();
 }
@@ -56,7 +56,7 @@ if (isset($_POST["clear_debt_id"])) {
             </thead>
             <tbody>
                 <?php
-                // Fetch user's debt details from debt_info table
+   
                 $mysqli = new mysqli("localhost", "root", "", "money");
 
                 if ($mysqli->connect_error) {

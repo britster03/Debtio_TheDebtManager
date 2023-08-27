@@ -1,5 +1,5 @@
 <?php
-// Connection to the MySQL database
+
 $servername = "localhost";
 $username = "root";
 $password = "";
@@ -13,12 +13,12 @@ if ($conn->connect_error) {
 
 if ($_SERVER["REQUEST_METHOD"] === "POST") {
     $username = $_POST["username"];
-    $password = $_POST["password"]; // You should hash the password for security reasons
+    $password = $_POST["password"]; 
 
     $sql = "INSERT INTO users (username, password) VALUES ('$username', '$password')";
 
     if ($conn->query($sql) === TRUE) {
-        header("Location: login.php"); // Redirect to login page
+        header("Location: login.php");
         exit();
     } else {
         echo "Error: " . $sql . "<br>" . $conn->error;
