@@ -97,7 +97,7 @@
     echo '           <div class="row-mt-5"> <div class="col-md-4">
     <div class="card bg-warning text-white">
         <div class="card-body">
-            <h5 class="card-title">Debt Page</h5>
+            <h5 class="card-title">Add Debt Info</h5>
             <a href="debt.php" class="btn btn-light">Check Now</a>
         </div>
     </div>

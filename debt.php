@@ -29,8 +29,6 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
     } else {
         echo "Error: " . $stmt->error;
     }
-
- 
     $stmt->close();
     $mysqli->close();
 }
@@ -46,6 +44,14 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
 <body>
     <div class="container mt-5">
         <h2>Your Debts</h2>
+        
+        <form method="GET" class="mb-3">
+            <div class="input-group">
+                <input type="text" class="form-control" name="search" placeholder="Search by Debtor's Name">
+                <button type="submit" class="btn btn-primary">Search</button>
+            </div>
+        </form>
+
         <table class="table table-striped">
             <thead>
                 <tr>
@@ -71,11 +77,29 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
                     echo "<td>" . $debtDetails["date"] . "</td>";
                     echo "</tr>";
                 }
+
+
+
+                $searchQuery = "";
+                if (isset($_GET["search"])) {
+                    $searchQuery = $_GET["search"];
+                    $query = "SELECT * FROM debt_info WHERE username = '" . $_SESSION["username"] . "' AND debtor_name LIKE '%" . $searchQuery . "%'";
+                } else {
+                    $query = "SELECT * FROM debt_info WHERE username = '" . $_SESSION["username"] . "'";
+                }
+        
+                $result = $mysqli->query($query);
+
+
+
                 ?>
             </tbody>
         </table>
         <button class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#addDebtModal">Add Debt</button>
     </div>
+
+
+
 
 
     <div class="modal fade" id="addDebtModal" tabindex="-1" aria-labelledby="addDebtModalLabel" aria-hidden="true">
@@ -105,6 +129,38 @@ if ($_SERVER["REQUEST_METHOD"] == "POST") {
             </div>
         </div>
     </div>
+
+    <hr>
+
+
+
+    
+        <?php if ($searchQuery != ""): ?>
+            <div class="card bg-warning mb-3">
+                <div class="card-body">
+                    <h5 class="card-title">Search Results for '<?php echo $searchQuery; ?>'</h5>
+                    <table class="table">
+                        <thead>
+                            <tr>
+                                <th>Debtor's Name</th>
+                                <th>Amount</th>
+                                <th>Date</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <?php
+                            while ($debtDetails = $result->fetch_assoc()) {
+                                echo "<tr>";
+                                echo "<td>" . $debtDetails["debtor_name"] . "</td>";
+                                echo "<td>" . $debtDetails["amount"] . "</td>";
+                                echo "<td>" . $debtDetails["date"] . "</td>";
+                            }
+                            ?>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        <?php endif; ?>
 
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>
